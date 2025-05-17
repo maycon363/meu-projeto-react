@@ -23,20 +23,20 @@ const Home = () => {
   const [transacoes, setTransacoes] = useState([])
 
   useEffect(() => {
-    apiFilmes.get('movie/popular?language=pt-BR').then(res => setDestaque(res.data.results[0]))
-    apiFilmes.get('movie/upcoming?language=pt-BR').then(res => setEmBreve(res.data.results[0]))
-    apiFilmes.get('tv/popular?language=pt-BR').then(res => setSeries(res.data.results))
-    apiFilmes.get('tv/top_rated?language=pt-BR').then(res => setTopSeries(res.data.results))
-    apiFilmes.get('discover/tv?with_genres=18&language=pt-BR').then(res => setSeriesDrama(res.data.results))
-    apiFilmes.get('discover/tv?with_genres=35&language=pt-BR').then(res => setSeriesComedia(res.data.results))
-    apiFilmes.get('discover/tv?with_genres=10759&language=pt-BR').then(res => setSeriesAcao(res.data.results))
-    apiFilmes.get('discover/tv?with_genres=10765&language=pt-BR').then(res => setSeriesScifi(res.data.results))
-    apiFilmes.get('discover/tv?with_genres=99&language=pt-BR').then(res => setSeriesDoc(res.data.results))
-    apiFilmes.get('discover/tv?with_genres=10749&language=pt-BR').then(res => setSeriesRomance(res.data.results))
-    apiFilmes.get('discover/tv?with_genres=80,9648&language=pt-BR').then(res => setSeriesCrime(res.data.results))
+    apiFilmes.get('/movie/popular?language=pt-BR').then(res => setDestaque(res.data.results[0]))
+    apiFilmes.get('/movie/upcoming?language=pt-BR').then(res => setEmBreve(res.data.results[0]))
+    apiFilmes.get('/tv/popular?language=pt-BR').then(res => setSeries(res.data.results))
+    apiFilmes.get('/tv/top_rated?language=pt-BR').then(res => setTopSeries(res.data.results))
+    apiFilmes.get('/discover/tv?with_genres=18&language=pt-BR').then(res => setSeriesDrama(res.data.results))
+    apiFilmes.get('/discover/tv?with_genres=35&language=pt-BR').then(res => setSeriesComedia(res.data.results))
+    apiFilmes.get('/discover/tv?with_genres=10759&language=pt-BR').then(res => setSeriesAcao(res.data.results))
+    apiFilmes.get('/discover/tv?with_genres=10765&language=pt-BR').then(res => setSeriesScifi(res.data.results))
+    apiFilmes.get('/discover/tv?with_genres=99&language=pt-BR').then(res => setSeriesDoc(res.data.results))
+    apiFilmes.get('/discover/tv?with_genres=10749&language=pt-BR').then(res => setSeriesRomance(res.data.results))
+    apiFilmes.get('/discover/tv?with_genres=80,9648&language=pt-BR').then(res => setSeriesCrime(res.data.results))
 
     // Mock ou API real de transações (para exemplo, peguei filmes recentes)
-    apiFilmes.get('movie/now_playing?language=pt-BR').then(res => setTransacoes(res.data.results))
+    apiFilmes.get('/movie/now_playing?language=pt-BR').then(res => setTransacoes(res.data.results))
   }, [])
 
   const renderSwiperSection = (title, data, path = 'series') => (

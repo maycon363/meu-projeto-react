@@ -17,10 +17,12 @@ export default function Footer() {
 
                     <div>
                         <ul>
-                            <li><a href="/">Início</a></li>
-                            <li><a href="/filmes/cartaz">Filmes</a></li>
-                            <li><a href="/series/no-ar">Séries</a></li>
-                            <li><a href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer">TMDB</a></li>
+                            <li><Link to="/">Início</Link></li>
+                            <li><Link to="/filmes/cartaz">Filmes</Link></li>
+                            <li><Link to="/series/no-ar">Séries</Link></li>
+                            <li>
+                            <a href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer">TMDB</a>
+                            </li>
                         </ul>
                     </div>
 

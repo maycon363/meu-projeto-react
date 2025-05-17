@@ -1,11 +1,7 @@
 import axios from 'axios';
 
 const apiFilmes = axios.create({
-  baseURL: 'https://api.themoviedb.org/3/',
-  params: {
-    api_key: process.env.REACT_APP_API_KEY,
-    language: 'pt-BR',
-  }
+  baseURL: 'https://lingering-frost-c1a3.mayconborgesgato717.workers.dev', 
 });
 
 export default apiFilmes;
