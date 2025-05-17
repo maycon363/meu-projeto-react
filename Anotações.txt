@@ -1,0 +1,9 @@
+tirar o middleware('auth') para tirar a autenticação
+
+cors tem que estar true 
+origin : true
+
+o resto é o msm
+
+
+fazer select com o register
