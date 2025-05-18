@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Col, Row, Spinner, Alert, Container } from 'react-bootstrap';
+import { Card, Col, Row, Alert, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import apiFilmes from '../../services/apiFilmes';
+import ModernSpinner from '../../components/ModernSpinner'
+
 
 const SeriesNoAr = () => {
   const [series, setSeries] = useState([]);
@@ -26,14 +28,7 @@ const SeriesNoAr = () => {
     buscarSeries();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="text-center mt-5">
-        <Spinner animation="border" variant="light" />
-        <p className="text-light mt-2">Carregando séries...</p>
-      </div>
-    );
-  }
+  if (loading) return <ModernSpinner />
 
   if (erro) {
     return <Alert variant="danger" className="text-center mt-4">{erro}</Alert>;

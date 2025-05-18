@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Col, Row, Spinner, Alert } from 'react-bootstrap'
+import { Card, Col, Row, Alert } from 'react-bootstrap'
 import getPosterPath from '../../components/getPosterPath'
 import { Link } from 'react-router-dom'
 import apiFilmes from '../../services/apiFilmes'
+import ModernSpinner from '../../components/ModernSpinner'
 
 const FilmesCartaz = () => {
   const [filmes, setFilmes] = useState([])
@@ -21,7 +22,7 @@ const FilmesCartaz = () => {
       .finally(() => setLoading(false))
   }, [])
 
-  if (loading) return <Spinner animation="border" variant="light" className="d-block mx-auto mt-5" />
+  if (loading) return <ModernSpinner />
   if (erro) return <Alert variant="danger" className="mt-5 text-center">{erro}</Alert>
 
   return (

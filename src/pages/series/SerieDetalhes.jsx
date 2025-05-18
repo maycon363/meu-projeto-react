@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Col, Row, Container, Spinner, Alert, Button } from 'react-bootstrap';
+import { Card, Col, Row, Container, Alert, Button } from 'react-bootstrap';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import apiFilmes from '../../services/apiFilmes';
+import ModernSpinner from '../../components/ModernSpinner'
 
 const SerieDetalhes = () => {
   const [serie, setSerie] = useState({});
@@ -35,14 +36,7 @@ const SerieDetalhes = () => {
     carregarDados();
   }, [id]);
 
-  if (loading) {
-    return (
-      <div className="text-center mt-5">
-        <Spinner animation="border" variant="light" />
-        <p className="text-light mt-2">Carregando série...</p>
-      </div>
-    );
-  }
+  if (loading) return <ModernSpinner />
 
   if (erro) {
     return <Alert variant="danger" className="text-center mt-4">{erro}</Alert>;

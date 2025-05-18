@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Col, Row, Spinner, Alert, Form, Pagination, Container } from 'react-bootstrap';
+import { Card, Col, Row, Alert, Form, Pagination, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import apiFilmes from '../../services/apiFilmes';
 import dayjs from 'dayjs';
+import ModernSpinner from '../../components/ModernSpinner'
 
 const FilmesLancamentos = () => {
   const [filmes, setFilmes] = useState([]);
@@ -55,7 +56,7 @@ const FilmesLancamentos = () => {
     );
   }
 
-  if (loading) return <Spinner animation="border" variant="light" className="d-block mx-auto mt-5" />;
+  if (loading) return <ModernSpinner />
   if (erro) return <Alert variant="danger" className="text-center mt-4">{erro}</Alert>;
 
   return (
