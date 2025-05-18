@@ -11,7 +11,7 @@ const FilmStripLoader = () => {
             </div>
           ))}
         </div>
-        <p className="loading-text">Carregando filme... aguarde!</p>
+        <p className="loading-text">Carregando... aguarde!</p>
       </div>
 
       <style>{`
