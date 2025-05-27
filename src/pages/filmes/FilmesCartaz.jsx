@@ -29,7 +29,7 @@ const FilmesCartaz = () => {
     <div className="letra container mt-4 mb-4 fade-in">
       <h1 className="neon-title text-center mb-3">🎬 Filmes em Cartaz</h1>
       
-      <Row className="g-3">
+      <Row className="g-3"> 
         {filmes.map(filme => (
           <Col key={filme.id} xs={12} sm={6} md={4} lg={3}>
             <Card className="h-100 poster-hover bg-dark text-white">

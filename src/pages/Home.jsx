@@ -21,6 +21,7 @@ const Home = () => {
   const [seriesRomance, setSeriesRomance] = useState([])
   const [seriesCrime, setSeriesCrime] = useState([])
   const [transacoes, setTransacoes] = useState([])
+  const [trailers, setTrailers] = useState([])
 
   useEffect(() => {
     apiFilmes.get('/movie/popular?language=pt-BR').then(res => setDestaque(res.data.results[0]))
@@ -35,13 +36,22 @@ const Home = () => {
     apiFilmes.get('/discover/tv?with_genres=10749&language=pt-BR').then(res => setSeriesRomance(res.data.results))
     apiFilmes.get('/discover/tv?with_genres=80,9648&language=pt-BR').then(res => setSeriesCrime(res.data.results))
 
-    // Mock ou API real de transações (para exemplo, peguei filmes recentes)
-    apiFilmes.get('/movie/now_playing?language=pt-BR').then(res => setTransacoes(res.data.results))
+    apiFilmes.get('/movie/now_playing?language=pt-BR').then(async res => {
+      setTransacoes(res.data.results)
+
+      const trailersData = await Promise.all(res.data.results.slice(0, 10).map(async (filme) => {
+        const resVideo = await apiFilmes.get(`/movie/${filme.id}/videos?language=pt-BR`)
+        const video = resVideo.data.results.find(v => v.type === "Trailer" && v.site === "YouTube")
+        return video ? { ...video, filmeTitle: filme.title } : null
+      }))
+
+      setTrailers(trailersData.filter(Boolean))
+    })
   }, [])
 
   const renderSwiperSection = (title, data, path = 'series') => (
     <>
-     <h2 className="text-2xl md:text-3xl font-bold mt-12 px-4 neon-title">{title}</h2>
+      <h2 className="text-2xl md:text-3xl font-bold mt-12 px-4 neon-title">{title}</h2>
       <div className="mt-6 px-4 relative">
         <Swiper
           modules={[Navigation]}
@@ -136,7 +146,8 @@ const Home = () => {
               Ver Detalhes
             </Link>
           </div>
-        </div>
+          
+        </div>         
       )}
 
       {/* 🧾 Seção de Transações */}
@@ -152,6 +163,9 @@ const Home = () => {
       {renderSwiperSection('🎥 Documentários', seriesDoc)}
       {renderSwiperSection('💘 Séries de Romance', seriesRomance)}
       {renderSwiperSection('🕵️‍♂️ Séries de Crime & Mistério', seriesCrime)}
+
+      {/* 🎬 Seção de Trailers */}
+      
     </div>
   )
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Col, Row, Button, Container, Alert } from 'react-bootstrap';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import apiFilmes from '../../services/apiFilmes';
-import ModernSpinner from '../../components/ModernSpinner'
+import ModernSpinner from '../../components/ModernSpinner';
 
 const AtoresDetalhes = () => {
   const [ator, setAtor] = useState({});
@@ -72,7 +72,7 @@ const AtoresDetalhes = () => {
         </Col>
       </Row>
 
-      <h2 className="text-white mt-5">Filmes</h2>
+      <h2 className="text-white mt-5">Conhecido(a) por</h2>
       <Row>
         {filmes.map(filme => (
           <Col key={filme.id} md={3} className="mb-4">

@@ -1,132 +1,160 @@
-import React, { useEffect, useState } from 'react';
-import { Card, Col, Row, Container, Alert, Button } from 'react-bootstrap';
-import { Link, useParams, useNavigate } from 'react-router-dom';
-import apiFilmes from '../../services/apiFilmes';
+import React, { useEffect, useState } from 'react'
+import { useParams, useNavigate, Link } from 'react-router-dom'
+import apiFilmes from '../../services/apiFilmes'
+import { motion } from 'framer-motion'
 import ModernSpinner from '../../components/ModernSpinner'
+import { Card, Col, Row } from 'react-bootstrap'
 
 const SerieDetalhes = () => {
-  const [serie, setSerie] = useState({});
-  const [elenco, setElenco] = useState([]);
-  const [temporadas, setTemporadas] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [erro, setErro] = useState(null);
+  const { id } = useParams()
+  const navigate = useNavigate()
 
-  const { id } = useParams();
-  const navigate = useNavigate();
+  const [serie, setSerie] = useState(null)
+  const [elenco, setElenco] = useState([])
+  const [temporadas, setTemporadas] = useState([])
+  const [erro, setErro] = useState(null)
 
   useEffect(() => {
     const carregarDados = async () => {
       try {
         const [resSerie, resElenco] = await Promise.all([
-          apiFilmes.get(`tv/${id}?language=pt-BR`),
-          apiFilmes.get(`tv/${id}/credits?language=pt-BR`)
-        ]);
+          apiFilmes.get(`/tv/${id}?language=pt-BR`),
+          apiFilmes.get(`/tv/${id}/credits?language=pt-BR`)
+        ])
 
-        setSerie(resSerie.data);
-        setTemporadas(resSerie.data.seasons);
-        setElenco(resElenco.data.cast);
+        setSerie(resSerie.data)
+        setTemporadas(resSerie.data.seasons || [])
+        setElenco(resElenco.data.cast.slice(0, 12) || [])
       } catch (err) {
-        console.error(err);
-        setErro('Erro ao carregar os detalhes da série.');
-      } finally {
-        setLoading(false);
+        console.error(err)
+        setErro('Erro ao carregar os detalhes da série.')
       }
-    };
+    }
 
-    carregarDados();
-  }, [id]);
+    carregarDados()
+  }, [id])
 
-  if (loading) return <ModernSpinner />
+  const getPosterPath = path =>
+    path ? `https://image.tmdb.org/t/p/w500${path}` : 'https://via.placeholder.com/500x750?text=Sem+Imagem'
+
+  const getProfilePath = path =>
+    path ? `https://image.tmdb.org/t/p/w185${path}` : 'https://via.placeholder.com/185x278?text=Sem+Foto'
+
+  const renderStars = nota => '⭐'.repeat(Math.round(nota / 2))
 
   if (erro) {
-    return <Alert variant="danger" className="text-center mt-4">{erro}</Alert>;
+    return (
+      <div className="text-center text-red-500 font-bold mt-6">
+        {erro}
+      </div>
+    )
   }
 
-  return (
-    <Container className="letra mt-4 fade-in">
-      <h1 className="text-white mb-4">{serie.name}</h1>
+  if (!serie) return <ModernSpinner />
 
+  return (
+    <motion.div
+      className="min-h-screen px-4 py-8 text-white"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+    >
+      <div className="flex flex-col md:flex-row gap-8 mb-10">
+        {/* Poster */}
+        <div className="w-[250px] rounded-lg overflow-hidden shadow-lg">
+          <img
+            src={getPosterPath(serie.poster_path)}
+            alt={serie.name}
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        {/* Informações principais */}
+        <div className="bg-zinc-900 p-6 rounded-xl shadow-lg flex-1">
+          <h1 className="text-3xl font-bold text-green-400 mb-2">{serie.name}</h1>
+
+          <p><strong className="text-green-400">Idioma original:</strong> {serie.original_language?.toUpperCase()}</p>
+          <p><strong className="text-green-400">Gêneros:</strong> {serie.genres?.map(g => g.name).join(', ')}</p>
+          <p><strong className="text-green-400">Lançamento:</strong> {serie.first_air_date}</p>
+          <p><strong className="text-green-400">Último episódio:</strong> {serie.last_air_date}</p>
+          <p><strong className="text-green-400">Status:</strong> {serie.status}</p>
+          <p><strong className="text-green-400">Popularidade:</strong> {serie.popularity?.toFixed(0)}</p>
+          <p><strong className="text-green-400">Nota:</strong> {renderStars(serie.vote_average)} ({serie.vote_average?.toFixed(1)})</p>
+
+          <div className="mt-4">
+            <h2 className="text-lg font-semibold text-green-300">Sinopse</h2>
+            <p className="text-sm text-justify">{serie.overview || 'Sinopse não disponível.'}</p>
+          </div>
+
+          <button
+            onClick={() => navigate(-1)}
+            className="mt-4 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-full flex items-center gap-2 transition-all"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Voltar
+          </button>
+        </div>
+      </div>
+
+      {/* Elenco */}
+      {elenco.length > 0 && (
+        <div className="mb-10">
+          <h3 className="text-2xl font-bold text-green-400 mb-4">Elenco</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {elenco.map(ator => (
+              <div
+                key={ator.id}
+                className="bg-black rounded-xl p-2 text-center hover:shadow-md cursor-pointer"
+                onClick={() => navigate(`/ator/${ator.id}`)}
+              >
+                <img
+                  src={getProfilePath(ator.profile_path)}
+                  alt={ator.name}
+                  className="rounded w-full h-48 object-cover mb-2"
+                />
+                <p className="text-sm font-medium truncate">{ator.name}</p>
+                <p className="text-xs truncate">{ator.character}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Temporadas */}
+      <h3 className="mt-5">Temporadas</h3>
       <Row>
-        <Col md={4}>
-          <Card className="bg-dark text-white">
-            {serie.poster_path ? (
+        {serie.seasons.map((temporada) => (
+          <Col key={temporada.id} xs={6} md={3} lg={2} className="mb-4">
+            <Card
+              className="h-100 shadow-sm text-white"
+              style={{ backgroundColor: '#111' }}
+              as={Link}
+              to={`/series/${serie.id}/temporada/${temporada.season_number}`}
+            >
               <Card.Img
                 variant="top"
-                src={`https://image.tmdb.org/t/p/w500/${serie.poster_path}`}
-                alt={serie.name}
+                src={
+                  temporada.poster_path
+                    ? `https://image.tmdb.org/t/p/w500${temporada.poster_path}`
+                    : 'https://via.placeholder.com/500x750?text=Sem+Imagem'
+                }
+                alt={temporada.name}
+                style={{ objectFit: 'cover', height: '250px' }}
               />
-            ) : (
-              <div className="text-center py-5" style={{ backgroundColor: '#444' }}>
-                <p>Imagem não disponível</p>
-              </div>
-            )}
-          </Card>
-        </Col>
-
-        <Col md={8}>
-          <p><strong>Título Original:</strong> {serie.original_name}</p>
-          <p><strong>Popularidade:</strong> {serie.popularity}</p>
-          <p><strong>Data de Lançamento:</strong> {serie.first_air_date}</p>
-          <p><strong>Gêneros:</strong> {serie.genres?.map(g => g.name).join(', ') || 'Não informado'}</p>
-          <p><strong>Sinopse:</strong> {serie.overview || 'Sinopse não disponível.'}</p>
-
-          <Button variant="danger" onClick={() => navigate(-1)}>Voltar</Button>
-        </Col>
-      </Row>
-
-      <h2 className="text-white mt-5">Temporadas</h2>
-      <Row>
-        {temporadas.map(temp => (
-          <Col key={temp.id} md={2} className="mb-4">
-            <Card className="bg-dark text-white h-100">
-              <Link to={`/series/${serie.id}/temporada/${temp.season_number}`}>
-                {temp.poster_path ? (
-                  <Card.Img
-                    variant="top"
-                    src={`https://image.tmdb.org/t/p/w500/${temp.poster_path}`}
-                    alt={temp.name}
-                  />
-                ) : (
-                  <div className="text-center py-4" style={{ backgroundColor: '#444' }}>
-                    <p>Sem imagem</p>
-                  </div>
-                )}
-              </Link>
               <Card.Body>
-                <Card.Title className="text-truncate">{temp.name}</Card.Title>
+                <Card.Title className="fs-6 text-white text-center">
+                  {temporada.name}
+                </Card.Title>
               </Card.Body>
             </Card>
           </Col>
         ))}
       </Row>
 
-      <h2 className="text-white mt-5">Elenco</h2>
-      <Row>
-        {elenco.map(ator => (
-          <Col key={ator.id} md={2} className="mb-4">
-            <Card className="bg-dark text-white h-100">
-              <Link to={`/ator/${ator.id}`}>
-                {ator.profile_path ? (
-                  <Card.Img
-                    variant="top"
-                    src={`https://image.tmdb.org/t/p/w500/${ator.profile_path}`}
-                    alt={ator.name}
-                  />
-                ) : (
-                  <div className="text-center py-4" style={{ backgroundColor: '#444' }}>
-                    <p>Sem imagem</p>
-                  </div>
-                )}
-              </Link>
-              <Card.Body>
-                <Card.Title className="text-truncate">{ator.name}</Card.Title>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </Container>
-  );
-};
+    </motion.div>
+  )
+}
 
-export default SerieDetalhes;
+export default SerieDetalhes

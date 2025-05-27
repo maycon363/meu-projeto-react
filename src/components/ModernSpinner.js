@@ -16,12 +16,12 @@ const FilmStripLoader = () => {
 
       <style>{`
         .film-strip-loader {
-          height: 60vh;
+          height: 100vh;
+          width: 100%;
           display: flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          /* Fundo com gradiente escuro e brilho suave */
           background: radial-gradient(circle at center, #2a2a2a 0%, #121212 80%);
           box-shadow: inset 0 0 50px rgba(255, 255, 255, 0.05);
           color: #fff;
@@ -29,25 +29,29 @@ const FilmStripLoader = () => {
           padding: 20px;
           user-select: none;
           transition: background 0.5s ease;
+          overflow-x: hidden;
+          box-sizing: border-box;
+          text-align: center;
         }
 
         .loading-text {
           margin-top: 24px;
           font-size: 1.2rem;
           letter-spacing: 1px;
-          text-align: center;
           text-shadow: 0 0 5px rgba(255, 255, 0, 0.8);
         }
 
         .film-strip {
           display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
           gap: 12px;
           background: #222;
           border: 4px solid #444;
           border-radius: 10px;
           padding: 12px 16px;
           box-shadow: 0 0 20px #000 inset;
-          transition: box-shadow 0.3s ease;
+          max-width: 95vw;
         }
 
         .frame {
@@ -83,19 +87,32 @@ const FilmStripLoader = () => {
           100% { opacity: 0; }
         }
 
-        @media (max-width: 480px) {
-          .film-strip {
-            gap: 8px;
-            padding: 8px 12px;
-          }
+        @media (max-width: 768px) {
           .frame {
-            width: 28px;
-            height: 42px;
+            width: 32px;
+            height: 48px;
             border-width: 2px;
             border-radius: 4px;
           }
           .loading-text {
+            font-size: 1.1rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .film-strip {
+            gap: 6px;
+            padding: 8px 10px;
+          }
+
+          .frame {
+            width: 26px;
+            height: 38px;
+          }
+
+          .loading-text {
             font-size: 1rem;
+            margin-top: 16px;
           }
         }
       `}</style>
