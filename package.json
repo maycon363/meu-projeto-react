@@ -4,6 +4,8 @@
   "private": true,
   "homepage": "https://maycon363.github.io/meu-projeto-react",
   "dependencies": {
+    "@react-three/drei": "^9.32.4",
+    "@react-three/fiber": "^8.1.0",
     "@tailwindcss/line-clamp": "^0.4.4",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^14.0.0",
@@ -13,7 +15,7 @@
     "bootstrap": "^5.3.6",
     "dayjs": "^1.11.13",
     "dotenv": "^16.5.0",
-    "framer-motion": "^12.12.1",
+    "framer-motion": "^12.15.0",
     "node-fetch": "^3.3.2",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.10",
@@ -23,12 +25,13 @@
     "react-loading-skeleton": "^3.5.0",
     "react-player": "^2.16.0",
     "react-router-dom": "^6.23.0",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "react-slick": "^0.30.3",
     "remask": "^1.2.2",
     "slick-carousel": "^1.8.1",
     "sweetalert2": "^11.21.0",
     "swiper": "^11.2.6",
+    "three": "^0.176.0",
     "web-vitals": "^5.0.0"
   },
   "scripts": {
@@ -59,6 +62,8 @@
   },
   "proxy": "https://api.themoviedb.org",
   "devDependencies": {
-    "gh-pages": "^6.3.0"
+    "customize-cra": "^1.0.0",
+    "gh-pages": "^6.3.0",
+    "react-app-rewired": "^2.2.1"
   }
 }
