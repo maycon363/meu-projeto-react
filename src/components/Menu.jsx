@@ -18,13 +18,15 @@ const Menu = () => {
                         <NavDropdown title="Filmes" menuVariant="dark">
                             <NavDropdown.Item as={Link} to="/filmes/lancamentos">Lançamentos</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/filmes/cartaz">Cartaz</NavDropdown.Item>
-           
+                            <NavDropdown.Item as={Link} to="/filmes/populares">Populares</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/filmes/Prox-estreias">Próximas Estreias</NavDropdown.Item>
                         </NavDropdown>
 
                         <NavDropdown title="Séries" menuVariant="dark">
                             <NavDropdown.Item as={Link} to="/series/no-ar">No Ar</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/series/populares">Populares</NavDropdown.Item> 
                             <NavDropdown.Item as={Link} to="/series/estrelando-hoje">Estrelando Hoje</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/series/bem-avaliadas">Mais bem avaliadas</NavDropdown.Item>
                         </NavDropdown>
                         <NavDropdown title="Atores" menuVariant="dark">
                             <NavDropdown.Item as={Link} to="/atores/populares">Atores Populares</NavDropdown.Item>
