@@ -173,9 +173,7 @@ body.loading {
   font-weight: 700;
   text-decoration: none;
 }
-.banner a:hover {
-  background-color: #080808;
-}
+
 .banner .banner-content {
   background: rgba(0, 0, 0, 0.6);
   padding: 2rem;

@@ -55,6 +55,7 @@ const Home = () => {
         apiFilmes.get('/movie/now_playing?language=pt-BR')
       ]);
 
+
       setDestaque(popRes.data.results[0]);
       setEmBreve(upcomingRes.data.results[0]);
       setSeries(popularTv.data.results);
@@ -81,6 +82,8 @@ const Home = () => {
 
     fetchData();
   }, []);
+
+  const renderStars = nota => '⭐'.repeat(Math.round(nota / 2))
 
   const renderSwiperSection = (title, data, path = 'series') => (
     <>
@@ -130,45 +133,39 @@ const Home = () => {
   return (
     <div className="min-h-screen text-white pb-16 fade-in">
       <section
-        className="banner relative h-[75vh] bg-cover bg-center flex items-center justify-start px-8"
+        className="banner relative h-[60vh] md:h-[75vh] bg-cover bg-center flex items-center justify-start px-4 md:px-8 overflow-hidden"
         style={{
-          backgroundImage: `url(https://image.tmdb.org/t/p/original/${destaque?.backdrop_path})`,
+          backgroundImage: destaque ? `url(https://image.tmdb.org/t/p/original/${destaque.backdrop_path})` : undefined,
         }}
       >
-        {/* Fundo escuro com gradiente e blur */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/70 to-transparent backdrop-blur-sm z-0" />
-
-        {/* Conteúdo do banner com sombra e fundo escuro */}
-        <div
-          className="relative z-10 p-8 md:p-12 rounded-xl max-w-2xl text-white space-y-6"
-          style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
-        >
+          <div
+            className="relative z-10 p-4 md:p-12 rounded-xl w-full max-w-2xl text-white space-y-4 md:space-y-6 overflow-hidden"
+            style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
+          >
           <h1
-            className="text-5xl md:text-6xl font-extrabold leading-tight"
-            style={{
-              textShadow: '2px 2px 8px rgba(0, 0, 0, 1)',
-            }}
+            style={{ fontSize: '1.25rem', textShadow: '2px 2px 8px rgba(0, 0, 0, 1)', wordBreak: 'break-word' }}
+            className="font-extrabold leading-tight break-words max-w-full"
           >
-            {destaque?.title}
+            {destaque ? destaque.title : 'Carregando...'}
           </h1>
-
           <p
-            className="text-lg md:text-xl font-medium text-zinc-200 line-clamp-4"
-            style={{
-              textShadow: '1px 1px 6px rgba(0, 0, 0, 0.9)',
-            }}
+            className="text-sm sm:text-base md:text-lg font-medium text-zinc-200 line-clamp-4"
+            style={{ textShadow: '1px 1px 6px rgba(0, 0, 0, 0.9)' }}
           >
-            {destaque?.overview}
+            <strong>Nota:</strong> {destaque ? `${renderStars(destaque.vote_average)} (${destaque.vote_average.toFixed(1)})` : 'Carregando...'}
           </p>
-
           <Link
-            to={`/filmes/${destaque?.id}`}
-            className="inline-block bg-green-600 hover:bg-green-700 text-white text-lg font-semibold px-7 py-3 rounded-xl shadow-2xl transition-all duration-300"
+            to={destaque ? `/filmes/${destaque.id}` : '#'}
+            className="inline-block bg-green-600 hover:bg-green-600 text-white text-sm sm:text-base md:text-lg font-semibold px-5 md:px-7 py-2 md:py-3 rounded-xl shadow-2xl max-w-full whitespace-nowrap overflow-hidden text-ellipsis"
+            tabIndex={destaque ? 0 : -1}
           >
             Ver Detalhes
           </Link>
         </div>
       </section>
+
+
 
 
       {renderSwiperSection('🧾 Transações Recentes', transacoes, 'filmes')}
